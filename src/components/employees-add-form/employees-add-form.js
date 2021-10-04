@@ -13,7 +13,7 @@ class EmployeesAddForm extends Component {
 
     onValueChange = (e) => {
         this.setState({
-            [e.target.name] : e.target.value
+            [e.target.name] : e.target.value /* Записываем значение (value) объекта события в нужное свойство состояния по атрибуту name */
         })
     }
 

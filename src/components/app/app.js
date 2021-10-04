@@ -13,18 +13,18 @@ class App extends Component {
         super(props);
         this.state = {
             data: [
-                {name: 'John S.', salary: 800, increase: true, id: 1},
-                {name: 'Alex M.', salary: 3000, increase: false, id: 2},
-                {name: 'Carl W.', salary: 5000, increase: true, id: 3}
+                {name: 'John S.', salary: 800, increase: true, raising: true, id: 1},
+                {name: 'Alex M.', salary: 3000, increase: false, raising: false, id: 2},
+                {name: 'Carl W.', salary: 5000, increase: true, raising: false, id: 3}
             ]
         }
         this.maxId = 4;
     }
 
     deleteItem = (id) => {
-        this.setState(({data}) => {
+        this.setState((state) => {
             return {
-                data: data.filter(item => item.id !== id)
+                data: state.data.filter(item => item.id !== id) /* перебираем каждый объект в data и возвращаем массив с объектами, id которых не равняются тому, по которому кликнули */
             }
         })
     }
@@ -34,6 +34,7 @@ class App extends Component {
             name,
             salary,
             increase: false,
+            raising: false,
             id: this.maxId++
         }
         this.setState(({data}) => {
@@ -44,10 +45,30 @@ class App extends Component {
         })
     }
 
+    onToggleIncrease = (id) => {
+        this.setState(({data}) => ({ /* возвращаем новый объект у которого будет свойство data и возвращаем новый массив. Когда будет перебор каждого item и если сопали id, то значит это текущий нужный объект */
+            data: data.map(item => {
+                if (item.id === id) {
+                    return {...item, increase: !item.increase} /* будем возвращать новый объект и менять increase на противоположное от предидущего значения */
+                }
+                return item; /* возвращаем объект если условие не совпало */
+            })
+        }))
+    }
+
+    onToggleRise = (id) => {
+        console.log(`Rise this ${id}`)
+    }
+
     render() {
+        const employees = this.state.data.length;
+        const increased = this.state.data.filter(item => item.increase).length;
+
         return (
             <div className='app'>
-                <AppInfo/>
+                <AppInfo 
+                employees={employees}
+                increased={increased}/>
     
                 <div className="search-panel">
                     <SearchPanel/>
@@ -56,7 +77,9 @@ class App extends Component {
     
                 <EmployeesList 
                     data={this.state.data}
-                    onDelete={this.deleteItem}/>
+                    onDelete={this.deleteItem}
+                    onToggleIncrease={this.onToggleIncrease}
+                    onToggleRise={this.onToggleRise}/>
     
                 <EmployeesAddForm
                     onAdd={this.addItem}/>
