@@ -45,19 +45,15 @@ class App extends Component {
         })
     }
 
-    onToggleIncrease = (id) => {
+    onToggleProp = (id, prop) => {
         this.setState(({data}) => ({ /* возвращаем новый объект у которого будет свойство data и возвращаем новый массив. Когда будет перебор каждого item и если сопали id, то значит это текущий нужный объект */
             data: data.map(item => {
                 if (item.id === id) {
-                    return {...item, increase: !item.increase} /* будем возвращать новый объект и менять increase на противоположное от предидущего значения */
+                    return {...item, [prop]: !item[prop]} /* будем возвращать новый объект и менять переданный prop на противоположное от предидущего значения */
                 }
                 return item; /* возвращаем объект если условие не совпало */
             })
         }))
-    }
-
-    onToggleRise = (id) => {
-        console.log(`Rise this ${id}`)
     }
 
     render() {
@@ -78,8 +74,7 @@ class App extends Component {
                 <EmployeesList 
                     data={this.state.data}
                     onDelete={this.deleteItem}
-                    onToggleIncrease={this.onToggleIncrease}
-                    onToggleRise={this.onToggleRise}/>
+                    onToggleProp={this.onToggleProp}/>
     
                 <EmployeesAddForm
                     onAdd={this.addItem}/>
