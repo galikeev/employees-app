@@ -1,7 +1,34 @@
 import './app-filter.css';
 
 const AppFilter = (props) => {
-    // return (
+
+    const buttonsData = [
+        {name: 'all', label: 'Все сотрудники'},
+        {name: 'raising', label: 'На повышение'},
+        {name: 'more1000', label: 'З/П больше 1000$'},
+        {name: 'increase', label: 'Кто получит премию'}
+    ];
+
+    const buttons = buttonsData.map(({name, label}) => {
+        const active = props.filter === name; /* возвращает true или false */
+        const clazz = active ? 'btn-light' : 'btn-outline-light';
+        return (
+            <button type="button"
+                    className={`btn ${clazz}`}
+                    key={name}
+                    onClick={() => props.onFilterSelect(name)}>
+                    {label}
+            </button>
+        )
+    })
+
+    return (
+        <div className="btn-group">
+            {buttons}
+        </div>
+    )
+
+        // return (
     //     <div className="btn-group">
     //         <button 
     //             className="btn btn-light"
@@ -26,32 +53,6 @@ const AppFilter = (props) => {
     //         </button>
     //     </div>
     // );
-
-    const buttonsData = [
-        {name: 'all', label: 'Все сотрудники'},
-        {name: 'raising', label: 'На повышение'},
-        {name: 'more1000', label: 'З/П больше 1000$'},
-        {name: 'increase', label: 'Кто получит премию'}
-    ];
-
-    const buttons = buttonsData.map(({name, label}) => {
-        const active = props.filter === name;
-        const clazz = active ? 'btn-light' : 'btn-outline-light';
-        return (
-            <button type="button"
-                    className={`btn ${clazz}`}
-                    key={name}
-                    onClick={() => props.onFilterSelect(name)}>
-                    {label}
-            </button>
-        )
-    })
-
-    return (
-        <div className="btn-group">
-            {buttons}
-        </div>
-    )
 };
 
 export default AppFilter;
