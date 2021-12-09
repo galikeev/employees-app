@@ -1,4 +1,4 @@
-# This is a SPA that works with the marvel API
+# This is a SPA employees list
 
 https://employees-app-my.herokuapp.com/
 
